@@ -1,0 +1,83 @@
+hyperskill_project:
+  id: 528
+  ide_files: https://hyperskill.org/api/projects/528/additional-files/additional_files.json
+  is_template_based: false
+  use_ide: true
+  environment: unittest
+update_date: "Thu, 01 Jan 1970 00:00:00 UTC"
+stages:
+  - id: 3079
+    step: 52411
+    is_completed: true
+  - id: 3080
+    step: 52412
+    is_completed: true
+  - id: 3081
+    step: 52413
+    is_completed: false
+  - id: 3082
+    step: 52414
+    is_completed: false
+  - id: 3083
+    step: 52415
+    is_completed: false
+topics:
+  0:
+    - title: Introduction to LLMs
+      theory_id: 51833
+    - title: General limitations of LLMs
+      theory_id: 43801
+    - title: Introduction to AI safety
+      theory_id: 53456
+    - title: Introduction to prompt engineering
+      theory_id: 43279
+    - title: Anatomy of a prompt
+      theory_id: 53286
+    - title: Crafting effective prompts
+      theory_id: 53300
+    - title: Zero-shot and few-shot prompting
+      theory_id: 45098
+    - title: Chain-of-thought prompting
+      theory_id: 44767
+    - title: Reason and act (ReAct) prompting
+      theory_id: 45335
+    - title: Ethical considerations in AI
+      theory_id: 44708
+    - title: Adversarial attacks
+      theory_id: 52647
+    - title: Detecting LLM vulnerabilities
+      theory_id: 52580
+    - title: Introduction to machine learning
+      theory_id: 10403
+    - title: Introduction to neural networks
+      theory_id: 25701
+    - title: Introduction to agents
+      theory_id: 52375
+    - title: NeMo Guardrails overview
+      theory_id: 52544
+    - title: Starting with GitHub
+      theory_id: 4802
+    - title: Working with environment variables and .env files
+      theory_id: 41735
+    - title: Fork and pull request
+      theory_id: 4803
+    - title: Personal Access token
+      theory_id: 40645
+    - title: Starting with Git
+      theory_id: 10894
+    - title: Local repository
+      theory_id: 10901
+    - title: Working with remote repository
+      theory_id: 12299
+    - title: Git branches
+      theory_id: 11189
+  1:
+    - title: Problem decomposition prompting
+      theory_id: 44657
+  4:
+    - title: Introduction to CI/CD
+      theory_id: 19773
+    - title: Introduction to GitHub actions
+      theory_id: 20403
+    - title: YAML
+      theory_id: 12722

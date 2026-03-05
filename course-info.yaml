@@ -1,0 +1,21 @@
+type: hyperskill
+title: Building a PR Review Agent
+language: English
+summary: "<p>In this project, you’ll build a multi-agent AI system that taps into\
+  \ GitHub’s API to pull code diffs, test outcomes, and dependency data. It then uses\
+  \ this information to catch obvious mistakes—lint violations, missing tests, and\
+  \ vulnerability flags—and produces a short, clear comment for each pull request.\
+  \ Finally, it posts the review back to GitHub<strong>,</strong> so reviewers can\
+  \ dedicate their effort to the deeper review<strong> </strong>tasks.</p><br/><br/>Learn\
+  \ more at <a href=\"https://hyperskill.org/projects/528?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/528</a>"
+programming_language: Python
+programming_language_version: 3.10
+environment: unittest
+content:
+  - Building a PR Review Agent
+additional_files:
+  - name: requirements.txt
+    visible: true
+mode: Study
+yaml_version: 5
