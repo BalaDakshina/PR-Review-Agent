@@ -3,7 +3,7 @@ Please provide the full URL to your recipes-api GitHub repository below.
 """
 from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import FunctionTool
-from github import Auth, Github
+from github import Github
 from urllib.parse import urlparse
 from typing import Any
 from llama_index.core.prompts import RichPromptTemplate
@@ -19,10 +19,8 @@ import os
 dotenv.load_dotenv()
 
 repo_url = "https://github.com/BalaDakshina/recipe-api.git"
-
 git = Github(os.getenv("GITHUB_TOKEN_PERSONAL"))
 
-print("Token user:", git.get_user().login)
 
 def repo_full_name_from_url(url: str) -> str:
     path = urlparse(url).path.strip("/")
@@ -32,9 +30,6 @@ def repo_full_name_from_url(url: str) -> str:
 
 
 repo = git.get_repo(repo_full_name_from_url(repo_url))
-
-print(repo.full_name)
-print(repo.default_branch)
 
 
 def get_pr_details(pr_number: int) -> dict[str, Any]:
@@ -59,8 +54,6 @@ def get_pr_details(pr_number: int) -> dict[str, Any]:
     }
     return details
 
-
-print(get_pr_details(1))
 
 llm = OpenAI(
     model="gpt-4o-mini",
@@ -92,7 +85,6 @@ def get_pr_commit_details(commit_sha: str) -> dict[str, Any]:
 
 
 details = get_pr_details(1)
-print(get_pr_commit_details(details["commit_shas"][0]))
 
 
 def get_pr_changed_files(pr_number: int) -> list[dict[str, Any]]:
@@ -110,17 +102,13 @@ def get_pr_changed_files(pr_number: int) -> list[dict[str, Any]]:
     return out
 
 
-print(get_pr_changed_files(1))
-
-
-def post_review_to_pr(pr_number: int, comment: str):
+def post_review_to_pr(pr_number: int, comment: str) -> dict[str, Any]:
     pr = repo.get_pull(pr_number)
-    issue_comment = pr.create_issue_comment(comment)
-    print(comment)
+    review = pr.create_review(body=comment, event="COMMENT")
     return {
         "posted": True,
-        "comment_id": issue_comment.id,
-        "html_url": issue_comment.html_url,
+        "review_id": review.id,
+        "html_url": review.html_url,
     }
 
 async def add_comment_to_state(ctx: Context, draft_comment: str) -> str:
@@ -165,11 +153,10 @@ Once you gather the requested info, you MUST hand control back to the Commentor 
 )
 
 commentor_system_prompt = """
-You are the commentor agent that writes review comments for pull requests as a human reviewer would. \n 
+You are the commentor agent that gathers context for the given PR ALWAYS USING ContextAgent as a human reviewer would. \n 
 
 Rules:
-Ensure to do the following for a thorough review: 
- - Request for the PR details, changed files, and any other repo files you may need from the ContextAgent. 
+ - You MUST ALWAYS Request for the PR details, changed files and repo files from the ContextAgent. 
  - Once you have asked for all the needed information, write a good ~200-300 word review in markdown format detailing: \n
     - What is good about the PR? \n
     - Did the author follow ALL contribution rules? What is missing? \n
@@ -190,7 +177,7 @@ comment_agent = FunctionAgent(
 )
 
 POST_REVIEW_PROMPT = """
-You are the Review and Posting agent. You must use the CommentorAgent to create a review comment. 
+You are the Review and Posting agent. You must use the ContextAgent to gather changes in PR and use CommentorAgent to create a review comment. 
 Once a review is generated, you need to run a final check and post it to GitHub.
    - The review must: \n
    - Be a ~200-300 word review in markdown format. \n
@@ -200,6 +187,7 @@ Once a review is generated, you need to run a final check and post it to GitHub.
    - Are there notes on whether new endpoints were documented? \n
    - Are there suggestions on which lines could be improved upon? Are these lines quoted? \n
  If the review does not meet this criteria, you must ask the CommentorAgent to rewrite and address these concerns. \n
+ read draft_comment from state, finalize, save final_review, then call post_review_to_pr
  When you are satisfied, post the review to GitHub.  
  """
 
@@ -223,6 +211,7 @@ workflow_agent = AgentWorkflow(
 )
 
 ctx = Context(workflow_agent)
+
 
 async def main():
     query = input().strip()
