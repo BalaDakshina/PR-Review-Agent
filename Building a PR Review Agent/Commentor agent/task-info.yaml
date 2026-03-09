@@ -4,13 +4,17 @@ files:
     visible: true
     learner_created: false
   - name: test/__init__.py
+    visible: true
     learner_created: false
   - name: test/tests.py
+    visible: true
     learner_created: false
   - name: __init__.py
+    visible: true
     learner_created: false
   - name: tests.py
+    visible: true
     learner_created: false
 feedback_link: https://hyperskill.org/projects/528/stages/3081/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+record: 3

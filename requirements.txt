@@ -3,5 +3,3 @@ PyGithub
 python-dotenv
 llama-index-core
 llama-index-llms-openai
-
-broadwick
